@@ -1,30 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const servicoRoutes = require('./routes/servicoRoutes');
 require('dotenv').config();
 
 const app = express();
 
-// Middlewares
+
 app.use(express.json()); 
 app.use(cors()); 
+app.use('/api/servicos', servicoRoutes);
 
-// IMPORTAR AS ROTAS (Adicione esta linha)
 const authRoutes = require('./routes/authRoutes');
 const quartoRoutes = require('./routes/quartoRoutes');
 const reservaRoutes = require('./routes/reservaRoutes')
 
-// Rota de teste
 app.get('/', (req, res) => {
   res.json({ mensagem: 'API da Pousada rodando com sucesso!' });
 });
 
-// USAR AS ROTAS (Adicione esta linha)
 app.use('/api/auth', authRoutes);
 app.use('/api/quartos', quartoRoutes);
 app.use('/api/reservas', reservaRoutes);
 
-// Conexão com o Banco de Dados e Inicialização do Servidor
 const PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGO_URI)
