@@ -57,4 +57,14 @@ exports.login = async (req, res) => {
   } catch (erro) {
     res.status(500).json({ erro: 'Erro ao fazer login.', detalhes: erro.message });
   }
+
+};
+
+exports.listarUsuarios = async (req, res) => {
+  try {
+    const usuarios = await Usuario.find().select('-senha');
+    res.json(usuarios);
+  } catch (erro) {
+    res.status(500).json({ erro: 'Erro ao buscar funcionários.', detalhes: erro.message });
+  }
 };
