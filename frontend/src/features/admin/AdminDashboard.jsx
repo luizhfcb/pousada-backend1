@@ -2,28 +2,33 @@ import { BadgesManager } from './BadgesManager'
 import { ReservationsManager } from './ReservationsManager'
 import { RoomsManager } from './RoomsManager'
 import { ServicesManager } from './ServicesManager'
+import { StaffManager } from './StaffManager'
 
 export function AdminDashboard({
+  badges = [],
   error,
   loading,
   onCreateBadge,
   onCreateReservation,
   onCreateRoom,
   onCreateService,
+  onCreateUser,
   onDeleteReservation,
   onDeleteRoom,
+  onDeleteUser,
   onLogout,
   onUpdateReservation,
   onUpdateRoom,
+  onUpdateUser,
   reservations,
   rooms,
   services,
-  users,
+  users = [],
 }) {
   const summaryCards = [
     { label: 'Quartos', value: rooms.length },
     { label: 'Reservas', value: reservations.length },
-    { label: 'Serviços', value: services.length },
+    { label: 'Servicos', value: services.length },
     { label: 'Equipe', value: users.length },
   ]
 
@@ -31,7 +36,7 @@ export function AdminDashboard({
     <>
       <section className="admin-hero" id="resumo">
         <div className="admin-hero-copy">
-          <p className="eyebrow">Operação central</p>
+          <p className="eyebrow">Operacao central</p>
           <h2>Painel administrativo da pousada</h2>
           <p className="section-copy">Acompanhe os cadastros e organize a rotina da equipe.</p>
         </div>
@@ -77,7 +82,15 @@ export function AdminDashboard({
         users={users}
       />
 
-      <BadgesManager onCreate={onCreateBadge} users={users} />
+      <StaffManager
+        loading={loading}
+        onCreate={onCreateUser}
+        onDelete={onDeleteUser}
+        onUpdate={onUpdateUser}
+        users={users}
+      />
+
+      <BadgesManager badges={badges} onCreate={onCreateBadge} users={users} />
     </>
   )
 }

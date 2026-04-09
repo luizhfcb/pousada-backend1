@@ -6,8 +6,9 @@ const adminLinks = [
   { id: 'resumo', label: 'Resumo' },
   { id: 'quartos', label: 'Quartos' },
   { id: 'reservas', label: 'Reservas' },
-  { id: 'servicos', label: 'Serviços' },
-  { id: 'crachas', label: 'Crachás' },
+  { id: 'servicos', label: 'Servicos' },
+  { id: 'equipe', label: 'Equipe' },
+  { id: 'crachas', label: 'Crachas' },
 ]
 
 export function AdminLayout() {
@@ -18,7 +19,7 @@ export function AdminLayout() {
       <aside className="admin-sidebar">
         <div className="admin-sidebar-card">
           <p className="eyebrow">Painel interno</p>
-          <h1>Gestão da pousada</h1>
+          <h1>Gestao da pousada</h1>
           <div className="button-row admin-sidebar-actions">
             <Link className="button button-ghost" to="/">
               Voltar para a home
@@ -26,7 +27,7 @@ export function AdminLayout() {
           </div>
         </div>
 
-        <nav aria-label="Seções do painel" className="admin-nav">
+        <nav aria-label="Secoes do painel" className="admin-nav">
           {adminLinks.map((item) => (
             <NavLink
               key={item.id}

@@ -1,15 +1,25 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+
+import { formatDate } from '../../lib/format'
 
 const initialBadgeForm = {
   codigoRfid: '',
   usuario: '',
 }
 
-export function BadgesManager({ users, onCreate }) {
+export function BadgesManager({ badges = [], users = [], onCreate }) {
   const [formData, setFormData] = useState(initialBadgeForm)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  const availableUsers = useMemo(() => {
+    const usersWithBadge = new Set(
+      badges.map((badge) => badge.usuario?._id).filter(Boolean),
+    )
+
+    return users.filter((user) => !usersWithBadge.has(user._id))
+  }, [badges, users])
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -29,7 +39,7 @@ export function BadgesManager({ users, onCreate }) {
     try {
       await onCreate(formData)
       setFormData(initialBadgeForm)
-      setSuccess('Crachá emitido com sucesso.')
+      setSuccess('Cracha emitido com sucesso.')
     } catch (submitError) {
       setError(submitError.message)
     } finally {
@@ -41,15 +51,15 @@ export function BadgesManager({ users, onCreate }) {
     <section className="admin-section" id="crachas">
       <div className="admin-section-header">
         <div>
-          <p className="eyebrow">Crachás</p>
-          <h2>Emissão individual por funcionário</h2>
+          <p className="eyebrow">Crachas</p>
+          <h2>Emissao e consulta dos crachas da equipe</h2>
         </div>
       </div>
 
       <div className="admin-grid-two">
         <form className="admin-form" onSubmit={handleSubmit}>
           <label className="field">
-            <span>Código RFID</span>
+            <span>Codigo RFID</span>
             <input
               name="codigoRfid"
               onChange={handleChange}
@@ -59,17 +69,17 @@ export function BadgesManager({ users, onCreate }) {
           </label>
 
           <label className="field">
-            <span>Funcionário</span>
+            <span>Funcionario</span>
             <select
               name="usuario"
               onChange={handleChange}
               required
               value={formData.usuario}
             >
-              <option value="">Selecione um usuário</option>
-              {users.map((user) => (
+              <option value="">Selecione um usuario</option>
+              {availableUsers.map((user) => (
                 <option key={user._id} value={user._id}>
-                  {user.nome} · {user.cargo}
+                  {user.nome} - {user.cargo}
                 </option>
               ))}
             </select>
@@ -79,17 +89,25 @@ export function BadgesManager({ users, onCreate }) {
           {success ? <p className="status-message status-success">{success}</p> : null}
 
           <button className="button" disabled={submitting} type="submit">
-            {submitting ? 'Emitindo...' : 'Emitir crachá'}
+            {submitting ? 'Emitindo...' : 'Emitir cracha'}
           </button>
         </form>
 
-        <div className="admin-note-card">
-          <h3>Observação de backend</h3>
-          <p>
-            A API atual permite apenas emitir um crachá por usuário. Se um
-            funcionário já tiver crachá ativo, o backend responde com o bloqueio
-            1:1 e a mensagem aparece aqui no formulário.
-          </p>
+        <div className="admin-list-card">
+          {!badges.length ? (
+            <p className="empty-state">Nenhum cracha emitido ate o momento.</p>
+          ) : null}
+
+          {badges.map((badge) => (
+            <article className="admin-list-item" key={badge._id}>
+              <div>
+                <h3>{badge.usuario?.nome || 'Funcionario sem identificacao'}</h3>
+                <p>{badge.usuario?.cargo || 'Cargo nao informado'}</p>
+                <p>RFID: {badge.codigoRfid}</p>
+                <p>Emitido em {formatDate(badge.dataEmissao)}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -11,6 +11,7 @@ export function AdminDashboardPage() {
   const [reservations, setReservations] = useState([])
   const [services, setServices] = useState([])
   const [users, setUsers] = useState([])
+  const [badges, setBadges] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -23,18 +24,25 @@ export function AdminDashboardPage() {
     setLoading(true)
 
     try {
-      const [roomsResponse, reservationsResponse, servicesResponse, usersResponse] =
-        await Promise.all([
-          api.get('/api/quartos'),
-          api.get('/api/reservas'),
-          api.get('/api/servicos'),
-          api.get('/api/auth/usuarios'),
-        ])
+      const [
+        roomsResponse,
+        reservationsResponse,
+        servicesResponse,
+        usersResponse,
+        badgesResponse,
+      ] = await Promise.all([
+        api.get('/api/quartos'),
+        api.get('/api/reservas'),
+        api.get('/api/servicos'),
+        api.get('/api/auth/usuarios'),
+        api.get('/api/crachas'),
+      ])
 
       setRooms(roomsResponse.data)
       setReservations(reservationsResponse.data)
       setServices(servicesResponse.data)
       setUsers(usersResponse.data)
+      setBadges(badgesResponse.data)
       setError('')
     } catch (loadError) {
       if (loadError?.response?.status === 401) {
@@ -42,9 +50,7 @@ export function AdminDashboardPage() {
         return
       }
 
-      setError(
-        getApiErrorMessage(loadError, 'Não foi possível carregar o painel.'),
-      )
+      setError(getApiErrorMessage(loadError, 'Nao foi possivel carregar o painel.'))
     } finally {
       setLoading(false)
     }
@@ -70,55 +76,74 @@ export function AdminDashboardPage() {
 
   return (
     <AdminDashboard
+      badges={badges}
       error={error}
       loading={loading}
       onCreateBadge={(payload) =>
         wrapAction(
           () => api.post('/api/crachas', payload),
-          'Não foi possível emitir o crachá.',
+          'Nao foi possivel emitir o cracha.',
         )
       }
       onCreateReservation={(payload) =>
         wrapAction(
           () => api.post('/api/reservas', payload),
-          'Não foi possível criar a reserva.',
+          'Nao foi possivel criar a reserva.',
         )
       }
       onCreateRoom={(payload) =>
         wrapAction(
           () => api.post('/api/quartos', payload),
-          'Não foi possível cadastrar o quarto.',
+          'Nao foi possivel cadastrar o quarto.',
         )
       }
       onCreateService={(payload) =>
         wrapAction(
           () => api.post('/api/servicos', payload),
-          'Não foi possível cadastrar o serviço.',
+          'Nao foi possivel cadastrar o servico.',
+        )
+      }
+      onCreateUser={(payload) =>
+        wrapAction(
+          () => api.post('/api/auth/usuarios', payload),
+          'Nao foi possivel adicionar o funcionario.',
         )
       }
       onDeleteReservation={(id) =>
         wrapAction(
           () => api.delete(`/api/reservas/${id}`),
-          'Não foi possível excluir a reserva.',
+          'Nao foi possivel excluir a reserva.',
         )
       }
       onDeleteRoom={(id) =>
         wrapAction(
           () => api.delete(`/api/quartos/${id}`),
-          'Não foi possível excluir o quarto.',
+          'Nao foi possivel excluir o quarto.',
+        )
+      }
+      onDeleteUser={(id) =>
+        wrapAction(
+          () => api.delete(`/api/auth/usuarios/${id}`),
+          'Nao foi possivel remover o funcionario.',
         )
       }
       onLogout={handleLogout}
       onUpdateReservation={(id, payload) =>
         wrapAction(
           () => api.put(`/api/reservas/${id}`, payload),
-          'Não foi possível atualizar a reserva.',
+          'Nao foi possivel atualizar a reserva.',
         )
       }
       onUpdateRoom={(id, payload) =>
         wrapAction(
           () => api.put(`/api/quartos/${id}`, payload),
-          'Não foi possível atualizar o quarto.',
+          'Nao foi possivel atualizar o quarto.',
+        )
+      }
+      onUpdateUser={(id, payload) =>
+        wrapAction(
+          () => api.put(`/api/auth/usuarios/${id}`, payload),
+          'Nao foi possivel atualizar o funcionario.',
         )
       }
       reservations={reservations}
