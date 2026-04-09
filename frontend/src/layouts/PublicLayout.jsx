@@ -1,11 +1,15 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
+import { isAuthenticated } from '../lib/auth'
+
 const links = [
   { to: '/', label: 'Início', end: true },
   { to: '/quartos', label: 'Quartos' },
 ]
 
 export function PublicLayout() {
+  const loggedIn = isAuthenticated()
+
   return (
     <div className="site-shell">
       <header className="site-header">
@@ -30,9 +34,15 @@ export function PublicLayout() {
               {link.label}
             </NavLink>
           ))}
-          <Link className="button button-ghost" to="/admin/login">
-            Acesso da equipe
-          </Link>
+          {loggedIn ? (
+            <Link className="button button-ghost" to="/admin">
+              Abrir painel
+            </Link>
+          ) : (
+            <Link className="button button-ghost" to="/admin/login">
+              Acesso da equipe
+            </Link>
+          )}
         </nav>
       </header>
 

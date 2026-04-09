@@ -1,14 +1,18 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 import { LoginForm } from '../features/admin/LoginForm'
 import { api, getApiErrorMessage } from '../lib/api'
-import { setAuthToken } from '../lib/auth'
+import { isAuthenticated, setAuthToken } from '../lib/auth'
 
 export function AdminLoginPage() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  if (isAuthenticated()) {
+    return <Navigate replace to="/admin" />
+  }
 
   async function handleLogin(credentials) {
     setLoading(true)
