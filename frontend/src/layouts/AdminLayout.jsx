@@ -1,4 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
+
+import { HashScrollToSection } from '../components/HashScrollToSection'
 
 const adminLinks = [
   { id: 'resumo', label: 'Resumo' },
@@ -11,14 +13,17 @@ const adminLinks = [
 export function AdminLayout() {
   return (
     <div className="admin-shell">
+      <HashScrollToSection />
+
       <aside className="admin-sidebar">
         <div className="admin-sidebar-card">
           <p className="eyebrow">Painel interno</p>
           <h1>Gestão da pousada</h1>
-          <p>
-            Cadastre quartos, organize reservas, vincule serviços e emita
-            crachás para a equipe.
-          </p>
+          <div className="button-row admin-sidebar-actions">
+            <Link className="button button-ghost" to="/">
+              Voltar para a home
+            </Link>
+          </div>
         </div>
 
         <nav aria-label="Seções do painel" className="admin-nav">

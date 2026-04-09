@@ -3,9 +3,24 @@ import { Link } from 'react-router-dom'
 import { RoomsShowcase } from '../features/public/RoomsShowcase'
 
 const highlights = [
-  'Ambiente tranquilo para casais, famílias e pequenos grupos',
-  'Quartos confortáveis para descanso depois de um dia especial',
-  'Atendimento acolhedor com clima de casa no interior',
+  'Ambiente tranquilo',
+  'Café da manhã caseiro',
+  'Atendimento próximo',
+]
+
+const features = [
+  {
+    title: 'Conforto sem exagero',
+    description: 'Quartos acolhedores, bem iluminados e pensados para descanso.',
+  },
+  {
+    title: 'Clima familiar',
+    description: 'Uma hospedagem simples, gentil e com sensação de casa.',
+  },
+  {
+    title: 'Boa localização',
+    description: 'Perfeita para fins de semana tranquilos e pausas na rotina.',
+  },
 ]
 
 export function HomePage() {
@@ -14,105 +29,57 @@ export function HomePage() {
       <section className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">Pousada Serra Bela</p>
-          <h1>Um cantinho familiar para viver dias leves e descansar em paz</h1>
+          <h1>Descanso leve em um ambiente acolhedor para toda a família</h1>
           <p>
-            Cercada por natureza e silêncio, a Pousada Serra Bela recebe você
-            com carinho, conforto e aquele clima gostoso de hospedagem em
-            família.
+            Uma estadia tranquila, com conforto na medida certa e atendimento
+            próximo do começo ao fim.
           </p>
 
           <div className="button-row">
             <Link className="button" to="/quartos">
               Ver acomodações
             </Link>
-            <Link className="button button-ghost" to="/admin/login">
-              Falar com a equipe
-            </Link>
+            <a className="button button-ghost" href="#diferenciais">
+              Conhecer diferenciais
+            </a>
           </div>
         </div>
 
         <div className="hero-card">
-          <span className="pill pill-success">Bem-estar e acolhimento</span>
-          <ul className="highlight-list">
+          <p className="eyebrow">O essencial para relaxar</p>
+          <ul className="hero-badges">
             {highlights.map((item) => (
-              <li key={item}>{item}</li>
+              <li className="pill pill-success" key={item}>
+                {item}
+              </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section className="section ambience-section">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">Experiência</p>
-            <h2>Uma estadia pensada para quem busca descanso, cuidado e simplicidade</h2>
-          </div>
-          <p className="section-copy">
-            Cada detalhe foi pensado para transmitir acolhimento: espaços
-            tranquilos, atendimento próximo e ambientes confortáveis para toda
-            a família.
+          <p className="hero-note">
+            Ideal para quem quer sossego, simplicidade e uma hospedagem bem
+            cuidada.
           </p>
         </div>
-
-        <div className="ambience-grid">
-          <article className="ambience-card">
-            <h3>Recepção calorosa</h3>
-            <p>
-              Um atendimento próximo e gentil desde a chegada, com atenção aos
-              detalhes para você se sentir em casa.
-            </p>
-          </article>
-          <article className="ambience-card">
-            <h3>Quartos aconchegantes</h3>
-            <p>
-              Ambientes agradáveis para relaxar, dormir bem e aproveitar o ritmo
-              tranquilo da serra.
-            </p>
-          </article>
-          <article className="ambience-card">
-            <h3>Momentos em família</h3>
-            <p>
-              Um lugar gostoso para compartilhar café da manhã, conversar sem
-              pressa e criar boas lembranças.
-            </p>
-          </article>
-        </div>
       </section>
 
-      <section className="section ambience-section">
+      <section className="section ambience-section" id="diferenciais">
         <div className="section-heading">
           <div>
             <p className="eyebrow">Diferenciais</p>
-            <h2>Conforto, praticidade e aquela sensação boa de viagem tranquila</h2>
+            <h2>Menos excessos, mais conforto e tranquilidade</h2>
           </div>
           <p className="section-copy">
-            Ideal para fins de semana, feriados e pausas merecidas longe da
-            correria.
+            Um site mais direto, com leitura leve e foco no que realmente
+            importa para quem está procurando hospedagem.
           </p>
         </div>
 
         <div className="ambience-grid">
-          <article className="ambience-card">
-            <h3>Café da manhã especial</h3>
-            <p>
-              Sabores caseiros, mesa farta e o início perfeito para um dia
-              leve com a família.
-            </p>
-          </article>
-          <article className="ambience-card">
-            <h3>Localização tranquila</h3>
-            <p>
-              Um cenário sereno para descansar, respirar fundo e aproveitar o
-              melhor da região.
-            </p>
-          </article>
-          <article className="ambience-card">
-            <h3>Atendimento próximo</h3>
-            <p>
-              Equipe atenciosa para ajudar no que for preciso e tornar a sua
-              experiência ainda mais agradável.
-            </p>
-          </article>
+          {features.map((feature) => (
+            <article className="ambience-card" key={feature.title}>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -120,12 +87,12 @@ export function HomePage() {
 
       <section className="section cta-section">
         <div>
-          <p className="eyebrow">Reserve seu descanso</p>
-          <h2>Escolha a acomodação ideal e venha viver dias tranquilos com a gente</h2>
+          <p className="eyebrow">Sua próxima estadia</p>
+          <h2>Escolha a acomodação ideal e aproveite dias mais calmos</h2>
         </div>
         <p className="section-copy">
-          Explore nossos quartos e fale com a equipe para planejar uma estadia
-          acolhedora, prática e cheia de bons momentos.
+          Veja os quartos disponíveis e encontre a opção que combina melhor com
+          a sua viagem.
         </p>
       </section>
     </>

@@ -13,8 +13,11 @@ describe('app routing', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: /um cantinho familiar para viver dias leves e descansar em paz/i,
+        name: /descanso leve em um ambiente acolhedor para toda a família/i,
       }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: /conhecer diferenciais/i }),
     ).toBeInTheDocument()
   })
 
@@ -27,6 +30,9 @@ describe('app routing', () => {
 
     expect(
       screen.getByRole('heading', { name: /acessar área administrativa/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: /voltar para a home/i }),
     ).toBeInTheDocument()
   })
 })

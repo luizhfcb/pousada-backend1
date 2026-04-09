@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { LoginForm } from '../features/admin/LoginForm'
 import { api, getApiErrorMessage } from '../lib/api'
@@ -28,6 +28,12 @@ export function AdminLoginPage() {
   return (
     <section className="login-page">
       <div className="login-card">
+        <div className="button-row admin-top-actions">
+          <Link className="button button-ghost" to="/">
+            Voltar para a home
+          </Link>
+        </div>
+
         <p className="eyebrow">Equipe interna</p>
         <h1>Acessar área administrativa</h1>
         <p>

@@ -30,17 +30,16 @@ export function AdminDashboard({
   return (
     <>
       <section className="admin-hero" id="resumo">
-        <div>
+        <div className="admin-hero-copy">
           <p className="eyebrow">Operação central</p>
           <h2>Painel administrativo da pousada</h2>
-          <p className="section-copy">
-            Tudo aqui já conversa com o backend: login JWT, CRUD de quartos e
-            reservas, cadastro de serviços e emissão de crachás.
-          </p>
+          <p className="section-copy">Acompanhe os cadastros e organize a rotina da equipe.</p>
         </div>
-        <button className="button button-ghost" onClick={onLogout} type="button">
-          Sair
-        </button>
+        <div className="button-row admin-hero-actions">
+          <button className="button button-ghost" onClick={onLogout} type="button">
+            Sair
+          </button>
+        </div>
       </section>
 
       {error ? <p className="status-message status-error">{error}</p> : null}
