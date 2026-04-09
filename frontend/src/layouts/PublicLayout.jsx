@@ -1,14 +1,14 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
-import { isAuthenticated } from '../lib/auth'
+import { isAdminAuthenticated } from '../lib/auth'
 
 const links = [
-  { to: '/', label: 'Início', end: true },
+  { to: '/', label: 'Inicio', end: true },
   { to: '/quartos', label: 'Quartos' },
 ]
 
 export function PublicLayout() {
-  const loggedIn = isAuthenticated()
+  const loggedInAsAdmin = isAdminAuthenticated()
 
   return (
     <div className="site-shell">
@@ -21,7 +21,7 @@ export function PublicLayout() {
           </div>
         </Link>
 
-        <nav aria-label="Navegação principal" className="site-nav">
+        <nav aria-label="Navegacao principal" className="site-nav">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -34,7 +34,7 @@ export function PublicLayout() {
               {link.label}
             </NavLink>
           ))}
-          {loggedIn ? (
+          {loggedInAsAdmin ? (
             <Link className="button button-ghost" to="/admin">
               Abrir painel
             </Link>

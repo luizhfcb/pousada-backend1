@@ -15,3 +15,32 @@ export function clearAuthToken() {
 export function isAuthenticated() {
   return Boolean(getAuthToken())
 }
+
+function decodeTokenPayload(token) {
+  if (!token) {
+    return null
+  }
+
+  try {
+    const [, payload] = token.split('.')
+
+    if (!payload) {
+      return null
+    }
+
+    const normalizedPayload = payload.replace(/-/g, '+').replace(/_/g, '/')
+    const decodedPayload = window.atob(normalizedPayload)
+
+    return JSON.parse(decodedPayload)
+  } catch {
+    return null
+  }
+}
+
+export function getAuthRole() {
+  return decodeTokenPayload(getAuthToken())?.cargo || null
+}
+
+export function isAdminAuthenticated() {
+  return getAuthRole() === 'admin'
+}

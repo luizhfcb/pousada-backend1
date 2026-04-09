@@ -20,6 +20,11 @@ export function AdminDashboardPage() {
     navigate('/admin/login', { replace: true })
   }, [navigate])
 
+  const redirectUnauthorizedUser = useCallback(() => {
+    clearAuthToken()
+    navigate('/', { replace: true })
+  }, [navigate])
+
   const loadData = useCallback(async () => {
     setLoading(true)
 
@@ -50,11 +55,16 @@ export function AdminDashboardPage() {
         return
       }
 
+      if (loadError?.response?.status === 403) {
+        redirectUnauthorizedUser()
+        return
+      }
+
       setError(getApiErrorMessage(loadError, 'Nao foi possivel carregar o painel.'))
     } finally {
       setLoading(false)
     }
-  }, [handleLogout])
+  }, [handleLogout, redirectUnauthorizedUser])
 
   useEffect(() => {
     loadData()
@@ -67,6 +77,11 @@ export function AdminDashboardPage() {
     } catch (actionError) {
       if (actionError?.response?.status === 401) {
         handleLogout()
+        return
+      }
+
+      if (actionError?.response?.status === 403) {
+        redirectUnauthorizedUser()
         return
       }
 
